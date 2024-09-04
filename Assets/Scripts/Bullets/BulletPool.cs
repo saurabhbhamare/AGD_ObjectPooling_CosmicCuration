@@ -17,11 +17,11 @@ namespace CosmicCuration.Bullets
         }
         public BulletController GetBullet()
         {
-            if(pooledBullets.Count> 0)
+            if (pooledBullets.Count > 0)
             {
                 PooledBullet pooledBullet = pooledBullets.Find(item => !item.isUsed);
-               if(pooledBullet != null)
-                { 
+                if (pooledBullet != null)
+                {
                     pooledBullet.isUsed = true;
                     return pooledBullet.bullet;
                 }
