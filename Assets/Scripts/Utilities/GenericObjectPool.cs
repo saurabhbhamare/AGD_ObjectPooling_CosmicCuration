@@ -20,6 +20,11 @@ namespace CosmicCuration.Utilities
             }
             return CreateItem();
         }
+        public void  ReturnItem(T item)
+        {
+            PooledItem<T> pooledItem = pooledItems.Find(i => i.Item.Equals(item));
+            pooledItem.isUsed = false;
+        }
         protected virtual T CreateItem()
         {
             throw new NotImplementedException("not impl CreateItem in child class");
