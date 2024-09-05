@@ -6,7 +6,7 @@ namespace CosmicCuration.Utilities
 {
     public class GenericObjectPool<T> where T : class
     {
-        private List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
+        public List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
         public T GetItem()
         {
             if (pooledItems.Count > 0)
@@ -18,7 +18,7 @@ namespace CosmicCuration.Utilities
                     return item.Item;
                 }
             }
-            return CreateItem();
+            return CreateNewPooledItem();
         }
         public void ReturnItem(T item)
         {
@@ -27,7 +27,15 @@ namespace CosmicCuration.Utilities
         }
         protected virtual T CreateItem()
         {
-            throw new NotImplementedException("not impl CreateItem in child class");
+            throw new NotImplementedException("CreateItem() method not implemented in derived class");
+        }
+        private T CreateNewPooledItem()
+        {
+            PooledItem<T> newItem = new PooledItem<T>();
+            newItem.Item = CreateItem();
+            newItem.isUsed = true;
+            pooledItems.Add(newItem);
+            return newItem.Item;
         }
         public class PooledItem<T>
         {
